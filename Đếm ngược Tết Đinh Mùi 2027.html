@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#3a0714" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Đếm ngược Tết Đinh Mùi 2027</title>
+  <style>
+    /* macOS 26 (Tahoe) – Liquid Glass window */
+    :root {
+      --label: #fff; --label-2: rgba(255,255,255,.66); --label-3: rgba(255,255,255,.4);
+      --sep: rgba(255,255,255,.12); --accent: #FFD60A;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Be Vietnam Pro", system-ui, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; cursor: default; user-select: none; -webkit-user-select: none; }
+    html { background: #2a0610; }
+    body {
+      min-height: 100vh; font-family: var(--font); color: var(--label); font-size: 13px;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      display: flex; justify-content: center; align-items: center; padding: 54px 24px 32px;
+      background:
+        radial-gradient(60% 55% at 12% 10%, #ff5a3c 0%, transparent 70%),
+        radial-gradient(55% 50% at 92% 25%, #c4162a 0%, transparent 70%),
+        radial-gradient(60% 55% at 25% 90%, #ff9f0a 0%, transparent 70%),
+        radial-gradient(60% 55% at 90% 95%, #8a1040 0%, transparent 70%), #3a0714;
+      background-attachment: fixed;
+    }
+    .atmosphere { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .glow-orb, .deco { display: none; }
+    .petal { position: absolute; font-size: 14px; opacity: 0; animation: petalFall linear infinite; }
+    @keyframes petalFall { 0% { opacity: 0; transform: translateY(-20px) rotate(0); } 10% { opacity: .5; } 90% { opacity: .35; } 100% { opacity: 0; transform: translateY(100vh) rotate(360deg); } }
+
+    /* Menu bar */
+    .menubar { position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 5; display: flex; align-items: center; gap: 18px; padding: 0 16px;
+      font-size: 13px; background: rgba(0,0,0,.18); -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%); }
+    .menubar b { font-weight: 700; }
+
+    /* Window */
+    .window { position: relative; z-index: 1; width: 100%; max-width: 940px; border-radius: 26px; overflow: hidden;
+      background: rgba(48,12,24,.34); -webkit-backdrop-filter: blur(12px) saturate(170%); backdrop-filter: blur(12px) saturate(170%);
+      border: .5px solid rgba(255,255,255,.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 0 0 .5px rgba(0,0,0,.5), 0 30px 80px rgba(0,0,0,.55); }
+    .titlebar { height: 52px; display: flex; align-items: center; padding: 0 20px; position: relative; }
+    .lights { display: flex; gap: 8px; z-index: 1; }
+    .lights i { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.25); }
+    .lights .r { background: #ff5f57; } .lights .y { background: #febc2e; } .lights .g { background: #28c840; }
+    .win-title { position: absolute; left: 0; right: 0; text-align: center; font-weight: 600; font-size: 13px; color: var(--label-2); }
+    .win-body { display: grid; grid-template-columns: 290px 1fr; min-height: 520px; }
+
+    /* Sidebar */
+    .sidebar { padding: 6px 12px 16px; display: flex; flex-direction: column; background: rgba(0,0,0,.14); border-right: .5px solid var(--sep); }
+    .section-title { font-size: 12px; font-weight: 600; color: var(--label-3); padding: 8px 10px 6px; }
+    .milestones { display: flex; flex-direction: column; gap: 2px; }
+    .milestone { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 10px; }
+    .milestone:first-child { background: rgba(255,255,255,.16); }
+    .ms-icon { flex: none; width: 24px; text-align: center; font-size: 17px; }
+    .ms-info { flex: 1; min-width: 0; }
+    .ms-name { font-size: 13px; line-height: 1.25; }
+    .ms-date { font-size: 11px; color: var(--label-2); }
+    .ms-days { text-align: right; font-size: 13px; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .ms-days span { display: block; font-size: 10px; font-weight: 400; color: var(--label-2); }
+    .footer { margin-top: auto; padding: 16px 10px 0; font-size: 11px; color: var(--label-2); line-height: 1.5; }
+    .footer strong { color: var(--label); font-weight: 600; } .footer-note { color: var(--label-3); margin-top: 2px; }
+
+    /* Content */
+    .content { padding: 6px 28px 28px; display: flex; flex-direction: column; gap: 14px; }
+    .badge { align-self: flex-start; font-size: 11px; font-weight: 600; color: var(--accent); padding: 3px 10px; border-radius: 999px; background: rgba(255,214,10,.15); border: .5px solid rgba(255,214,10,.35); }
+    h1 { font-size: 28px; font-weight: 700; letter-spacing: -.01em; line-height: 1.1; margin-top: -4px; }
+    .subtitle { font-size: 13px; color: var(--label-2); margin-top: -10px; }
+
+
+    .vibe, .progress-wrap, .countdown, .tip { border-radius: 14px; background: rgba(255,255,255,.09); border: .5px solid rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
+    .vibe { padding: 12px 14px; }
+    .vibe-label { font-size: 11px; font-weight: 600; color: var(--label-3); margin-bottom: 3px; }
+    .vibe-text { font-size: 13px; line-height: 1.4; }
+
+    .countdown { display: grid; grid-template-columns: repeat(4, 1fr); padding: 22px 8px 18px; }
+    .time-box { text-align: center; position: relative; }
+    .time-box + .time-box::before { content: ''; position: absolute; left: 0; top: 12%; bottom: 12%; width: .5px; background: var(--sep); }
+    .time-box .number { display: block; font-size: 52px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.05; }
+    .time-box .label { display: block; font-size: 12px; color: var(--label-2); margin-top: 4px; }
+    .countdown-msg { text-align: center; font-size: 20px; font-weight: 700; letter-spacing: -.01em; margin-top: 2px; }
+    .countdown-msg span { color: var(--accent); }
+    .countdown-date { text-align: center; font-size: 12px; color: var(--label-2); margin-top: -10px; }
+
+    .progress-wrap { padding: 12px 14px; }
+    .progress-meta { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+    .progress-label { font-weight: 600; } .progress-pct { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .progress-bar { height: 6px; border-radius: 999px; background: rgba(255,255,255,.18); overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ff9f0a, var(--accent)); transition: width 1s cubic-bezier(.2,.8,.2,1); }
+    .progress-hint { font-size: 11px; color: var(--label-3); margin-top: 6px; }
+
+    .tip { display: flex; gap: 12px; align-items: center; padding: 10px 14px; }
+    .tip-icon { flex: none; width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; background: rgba(255,255,255,.18); }
+    .tip-text { font-size: 13px; line-height: 1.35; }
+
+
+    h1 { width: fit-content; }
+    /* ===== Cảnh nền theo sự kiện ===== */
+    .scene { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .scene > * { position: absolute; }
+    @keyframes sway { 0%,100% { transform: rotate(-1.6deg); } 50% { transform: rotate(1.6deg); } }
+    .pole { left: 1.5%; bottom: 0; height: 72vh; opacity: .6; transform-origin: 50% 100%; animation: sway 6s ease-in-out infinite; }
+    .branch { top: 20px; right: -10px; width: min(380px, 62vw); opacity: .8; transform-origin: 100% 0; animation: sway 7s ease-in-out infinite reverse; }
+    .smoke { width: 60px; height: 260px; }
+    .smoke i { position: absolute; bottom: 0; left: 50%; width: 46px; height: 90px; margin-left: -23px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(255,255,255,.4), transparent); filter: blur(7px); opacity: 0; animation: smoke 7s ease-in infinite; }
+    .smoke i:nth-child(2) { animation-delay: 2.3s; } .smoke i:nth-child(3) { animation-delay: 4.6s; }
+    @keyframes smoke { 0% { opacity: 0; transform: translate(0,0) scale(.5); } 20% { opacity: .55; } 60% { transform: translate(-18px,-130px) scale(1.2); } 100% { opacity: 0; transform: translate(14px,-260px) scale(1.9); } }
+    .sticks { right: 7%; bottom: 0; width: 60px; height: 46px; }
+    .sticks b { position: absolute; bottom: 0; width: 3px; height: 44px; background: linear-gradient(#c0392b, #6b3a2a); border-radius: 2px; }
+    .sticks b::before { content: ''; position: absolute; top: -3px; left: -1px; width: 5px; height: 5px; border-radius: 50%; background: #ff9f0a; box-shadow: 0 0 8px 3px rgba(255,140,30,.8); animation: glowtip 1.4s ease-in-out infinite alternate; }
+    .sticks b:nth-child(1) { left: 12px; transform: rotate(-6deg); } .sticks b:nth-child(2) { left: 28px; } .sticks b:nth-child(3) { left: 44px; transform: rotate(6deg); }
+    @keyframes glowtip { from { opacity: .6; } to { opacity: 1; } }
+
+    .dust { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,.85); filter: blur(.6px); opacity: 0; animation: drift linear infinite; }
+    @keyframes drift { 0% { opacity: 0; transform: translate(0,0); } 30% { opacity: .75; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)); } }
+    .board { left: 3%; bottom: 4%; width: 230px; height: 120px; border-radius: 10px; background: linear-gradient(145deg, rgba(34,70,52,.85), rgba(20,48,36,.85));
+      border: 5px solid #8b5a3c; display: flex; align-items: center; justify-content: center; text-align: center; opacity: .55;
+      font: 22px/1.3 "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive; color: rgba(255,255,255,.92); transform: rotate(-3deg); }
+
+    .bulb { width: 10px; height: 14px; border-radius: 50%; animation: bulb 1.1s ease-in-out infinite alternate; }
+    .wire { left: 0; right: 0; top: 24px; height: 40px; }
+    @keyframes bulb { from { opacity: .35; } to { opacity: 1; } }
+
+    .fire-glow { left: 50%; bottom: -150px; width: 900px; height: 460px; margin-left: -450px; background: radial-gradient(closest-side, rgba(255,150,40,.8), rgba(255,80,20,.3) 60%, transparent); animation: glowflick 1s ease-in-out infinite alternate; }
+    @keyframes glowflick { from { opacity: .65; transform: scale(.95); } to { opacity: 1; transform: scale(1.05); } }
+    .fire { left: 50%; bottom: 0; width: 210px; margin-left: -105px; }
+    .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flick .55s ease-in-out infinite alternate; }
+    
+    @keyframes flick { from { transform: scale(1,.86) skewX(-4deg); } to { transform: scale(.94,1.14) skewX(4deg); } }
+    .ember { width: 4px; height: 4px; border-radius: 50%; bottom: 20px; background: #ffb340; box-shadow: 0 0 6px 2px rgba(255,140,30,.8); opacity: 0; animation: ember linear infinite; }
+    @keyframes ember { 0% { opacity: 0; transform: translate(0,0); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), -65vh); } }
+    #fw { left: 0; top: 0; }
+
+    .petal.rise { animation-name: petalRise; }
+    @keyframes petalRise { 0% { opacity: 0; transform: translateY(0) rotate(0); } 10% { opacity: .6; } 90% { opacity: .4; } 100% { opacity: 0; transform: translateY(-105vh) rotate(-200deg); } }
+    @media (max-width: 760px) { .board { display: none; } .pole { height: 60vh; } }
+
+    /* Dê chạy */
+    .runner { position: absolute; z-index: 6; width: 92px; height: 50px; pointer-events: none; opacity: 0; }
+    .goat-svg { position: absolute; right: 0; top: -22px; width: 92px; height: 74px; overflow: visible; }
+    .gbob { transform-box: fill-box; transform-origin: 50% 100%; animation: hop .42s ease-in-out infinite; }
+    @keyframes hop { 0%,100% { transform: translateY(0) scale(1.07,.93) rotate(-2deg); } 50% { transform: translateY(-13px) scale(.96,1.05) rotate(3deg); } }
+    .gshadow { transform-box: fill-box; transform-origin: 50% 50%; animation: shadow .42s ease-in-out infinite; }
+    @keyframes shadow { 0%,100% { transform: scale(1); opacity: .3; } 50% { transform: scale(.65); opacity: .14; } }
+    .leg { transform-box: fill-box; transform-origin: 50% 8%; animation: stride .42s ease-in-out infinite; }
+    .l1, .l4 { animation-delay: -.21s; }
+    @keyframes stride { 0%,100% { transform: rotate(38deg); } 50% { transform: rotate(-38deg); } }
+    .ear { transform-box: fill-box; transform-origin: 50% 90%; animation: flap .21s ease-in-out infinite alternate; }
+    .e2 { animation-delay: -.1s; }
+    @keyframes flap { from { transform: rotate(-14deg); } to { transform: rotate(16deg); } }
+    .tail { transform-box: fill-box; transform-origin: 90% 60%; animation: wag .18s ease-in-out infinite alternate; }
+    @keyframes wag { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
+    .scarf-tail { transform-box: fill-box; transform-origin: 85% 0; animation: flutter .26s ease-in-out infinite alternate; }
+    @keyframes flutter { from { transform: rotate(14deg) skewX(-6deg); } to { transform: rotate(-18deg) skewX(8deg); } }
+    .eye { transform-box: fill-box; transform-origin: 50% 50%; animation: blink 2.8s infinite; }
+    @keyframes blink { 0%,92%,100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+    .rs { position: absolute; top: 10px; font-size: 14px; animation: twinkle .7s ease-in-out infinite alternate; }
+    .rs1 { right: 100px; top: -6px; } .rs2 { right: 124px; top: 20px; animation-delay: .2s; font-size: 11px; }
+    .rs3 { right: 148px; top: -2px; animation-delay: .35s; font-size: 12px; } .rs4 { right: 168px; top: 22px; animation-delay: .1s; font-size: 10px; }
+    @keyframes twinkle { 0% { transform: scale(.4) rotate(0); opacity: .2; } 100% { transform: scale(1.25) rotate(40deg); opacity: 1; } }
+
+    .tick { animation: tick .2s ease; }
+    @keyframes tick { 0% { opacity: .6; transform: scale(.96); } 100% { opacity: 1; transform: scale(1); } }
+
+    @media (max-width: 760px) {
+      body { padding: 40px 10px 20px; align-items: flex-start; }
+      .win-body { grid-template-columns: 1fr; }
+      .sidebar { order: 2; border-right: 0; border-top: .5px solid var(--sep); }
+      .content { padding: 4px 16px 18px; }
+      .time-box .number { font-size: 36px; }
+      .menubar span:nth-child(n+4) { display: none; }
+    }
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .window { background: rgba(48,12,24,.95); } }
+  </style>
+</head>
+<body>
+  <!-- Atmosphere layer -->
+  <div class="scene" id="scene"></div>
+  <div class="atmosphere" id="atmosphere">
+    <div class="glow-orb" style="width:120px;height:120px;top:8%;left:10%;animation-delay:0s;"></div>
+    <div class="glow-orb" style="width:90px;height:90px;top:55%;right:8%;animation-delay:3s;"></div>
+    <div class="glow-orb" style="width:70px;height:70px;bottom:15%;left:20%;animation-delay:6s;"></div>
+  </div>
+
+  <div class="deco lantern l1"></div>
+  <div class="deco lantern l2"></div>
+
+  <div class="menubar" aria-hidden="true"><b>Đếm ngược Tết</b><span>Tệp</span><span>Chỉnh sửa</span><span>Xem</span><span>Cửa sổ</span><span>Trợ giúp</span></div>
+
+  <div class="card window">
+    <header class="titlebar">
+      <div class="win-title">Đếm ngược Tết Đinh Mùi</div>
+    </header>
+    <div class="win-body">
+      <aside class="sidebar">
+        <div class="section-title">Mốc sắp tới</div>
+    <div class="milestones" id="milestones"></div>
+
+    <div class="footer">
+      <strong>Chúc năm mới an khang thịnh vượng</strong><br>
+      Sum vầy · Ấm áp · An lành
+      <div class="footer-note">Đếm ngược realtime · Giờ Việt Nam</div>
+    </div>
+      </aside>
+      <main class="content">
+        <div class="badge">ĐINH MÙI 2027</div>
+
+    <h1>Tết Nguyên Đán</h1>
+    <div class="subtitle">Năm Con Dê · Mùng 1 Tết</div>
+
+    <div class="vibe">
+      <div class="vibe-label">Vibe hôm nay</div>
+      <div class="vibe-text" id="vibeText">Không khí cuối năm đang len vào từng góc nhà. Ai cũng bắt đầu đếm ngày về quê.</div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="progress-label" id="countdownMsg">Còn <span id="daysText">--</span> ngày nữa tới Tết</span>
+        <span class="progress-pct" id="progressPct">--%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-hint">01/10/2026 → 06/02/2027</div>
+    </div>
+
+    <div class="countdown">
+      <div class="time-box">
+        <span class="number" id="days">--</span>
+        <span class="label">Ngày</span>
+      </div>
+      <div class="time-box">
+        <span class="number" id="hours">--</span>
+        <span class="label">Giờ</span>
+      </div>
+      <div class="time-box">
+        <span class="number" id="mins">--</span>
+        <span class="label">Phút</span>
+      </div>
+      <div class="time-box">
+        <span class="number" id="secs">--</span>
+        <span class="label">Giây</span>
+      </div>
+    </div>
+
+        <div class="countdown-date">Thứ Bảy · 06/02/2027</div>
+
+    <div class="tip">
+      <div class="tip-icon" id="tipIcon">🧳</div>
+      <div class="tip-text" id="tipText">Lên list việc cần làm trước Tết. Đừng để gần ngày mới cuống.</div>
+    </div>
+
+          </main>
+    </div>
+  </div>
+
+  <div class="runner" id="runner" aria-hidden="true">
+    <span class="rs rs1">✨</span><span class="rs rs2">✨</span><span class="rs rs3">⭐</span><span class="rs rs4">✨</span>
+    <svg class="goat-svg" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+      <ellipse class="gshadow" cx="48" cy="76" rx="27" ry="3.8" fill="#000" opacity=".28"/>
+      <g class="gbob">
+        <g class="tail"><circle cx="15" cy="40" r="6" fill="#fff4de"/><circle cx="11" cy="37" r="3" fill="#f7d9c4"/></g>
+        <g class="leg l1"><rect x="26" y="52" width="8" height="19" rx="4" fill="#efe0c4"/><rect x="26" y="66" width="8" height="5" rx="2.5" fill="#6b4130"/></g>
+        <g class="leg l2"><rect x="38" y="52" width="8" height="19" rx="4" fill="#fff4de"/><rect x="38" y="66" width="8" height="5" rx="2.5" fill="#6b4130"/></g>
+        <g class="leg l3"><rect x="56" y="52" width="8" height="19" rx="4" fill="#efe0c4"/><rect x="56" y="66" width="8" height="5" rx="2.5" fill="#6b4130"/></g>
+        <g class="leg l4"><rect x="67" y="52" width="8" height="19" rx="4" fill="#fff4de"/><rect x="67" y="66" width="8" height="5" rx="2.5" fill="#6b4130"/></g>
+        <ellipse cx="46" cy="44" rx="29" ry="17.5" fill="#fff4de"/>
+        <ellipse cx="44" cy="52" rx="20" ry="7" fill="#f7e6c8" opacity=".7"/>
+        <path class="scarf-tail" d="M62 46 q-9 6 -8 17 q5 -3 8 0 q3 -8 3 -17z" fill="#e63946"/>
+        <rect x="58" y="36" width="17" height="11" rx="5.5" fill="#e63946" transform="rotate(18 66 41)"/>
+        <circle cx="69" cy="50" r="3.4" fill="#f4b41a"/><rect x="67.9" y="49.6" width="2.2" height="1.4" rx=".7" fill="#b7791f"/>
+        <g class="ear e1"><ellipse cx="58" cy="21" rx="4.6" ry="9" transform="rotate(-48 58 21)" fill="#fff4de"/><ellipse cx="58" cy="21" rx="2.4" ry="6" transform="rotate(-48 58 21)" fill="#f7b8c0"/></g>
+        <path d="M66 17 Q61 5 70 7" stroke="#f4b41a" stroke-width="4.2" fill="none" stroke-linecap="round"/>
+        <path d="M77 16 Q80 4 87 8" stroke="#f4b41a" stroke-width="4.2" fill="none" stroke-linecap="round"/>
+        <circle cx="73" cy="30" r="18" fill="#fff4de"/>
+        <g class="ear e2"><ellipse cx="86" cy="22" rx="4.6" ry="9" transform="rotate(42 86 22)" fill="#fff4de"/><ellipse cx="86" cy="22" rx="2.4" ry="6" transform="rotate(42 86 22)" fill="#f7b8c0"/></g>
+        <ellipse cx="85" cy="38" rx="10" ry="7.5" fill="#f9dfcc"/>
+        <ellipse cx="91" cy="35.5" rx="2.2" ry="1.6" fill="#5b2a2a"/>
+        <path d="M82 42 q4 4 8 0" stroke="#5b2a2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <ellipse cx="73" cy="40" rx="4.6" ry="3" fill="#ff8fa3" opacity=".55"/>
+        <g class="eye"><ellipse cx="66" cy="29" rx="3.7" ry="4.6" fill="#2a1216"/><circle cx="67.2" cy="27.2" r="1.5" fill="#fff"/><circle cx="65" cy="31" r=".8" fill="#fff"/></g>
+        <g class="eye"><ellipse cx="80" cy="29" rx="3.7" ry="4.6" fill="#2a1216"/><circle cx="81.2" cy="27.2" r="1.5" fill="#fff"/><circle cx="79" cy="31" r=".8" fill="#fff"/></g>
+        <path d="M83 47 q2 6 -1 9 q-4 -4 1 -9z" fill="#fff4de" stroke="#efe0c4" stroke-width=".8"/>
+      </g>
+    </svg>
+  </div>
+
+  <script>
+    const tetDate = new Date('2027-02-06T00:00:00+07:00').getTime();
+
+    const journeyStart = new Date('2026-10-01T00:00:00+07:00').getTime();
+    const totalJourney = tetDate - journeyStart;
+
+    const events = [
+      { name: 'Ngày Nhà giáo Việt Nam', date: '2026-11-20', theme: 'teacher', icon: '👨‍🏫' },
+      { name: 'Ngày Văn hóa Việt Nam', date: '2026-11-24', theme: 'culture', icon: '🇻🇳' },
+      { name: 'Giáng sinh', date: '2026-12-25', theme: 'noel', icon: '🎄' },
+      { name: 'Tết Dương lịch', date: '2027-01-01', theme: 'newyear', icon: '🎆' },
+      { name: 'Ông Công Ông Táo', date: '2027-01-30', theme: 'ongtao', icon: '🐟' },
+      { name: 'Giao thừa (29 Chạp)', date: '2027-02-05', theme: 'giaothua', icon: '🧨' },
+      { name: 'Mùng 1 Tết Đinh Mùi', date: '2027-02-06', theme: 'mung1', icon: '🐐' },
+    ];
+
+    const periods = [
+      {
+        from: '2026-10-01', to: '2026-11-14',
+        vibe: 'Không khí cuối năm đang len vào từng góc nhà. Ai cũng bắt đầu đếm ngày về quê.',
+        vibes: ["Không khí cuối năm đang len vào từng góc nhà. Ai cũng bắt đầu đếm ngày về quê.", "Ví vừa lên tiếng: \"Dành dụm cho Tết đi nha\". Ví nói gì cũng đúng.", "Việc hôm nay có thể chưa xong, nhưng Tết thì đang tới thật. Hít sâu, cười một cái.", "Group gia đình bắt đầu rộ chuyện \"năm nay ăn Tết ở đâu\". Chuẩn bị tinh thần nhé.", "Mỗi ngày trôi qua là gần Tết thêm một chút. Cứ thong thả, Tết không chạy đi đâu đâu.", "Hôm nay uống ly cà phê ngon thôi. Deadline cuối năm cứ để mai tính.", "Nhẩm đếm ngày nghỉ Tết trong đầu lần thứ 37 hôm nay. Không sao, ai cũng vậy.", "Trời dịu rồi, gió mát rồi. Rất hợp để mơ về mâm cơm ngày Tết.", "Chưa tới Tết mà bụng đã thèm bánh chưng trước. Bụng đi trước thời đại."],
+        tipIcon: '🧳', tip: 'Lên list việc cần làm trước Tết. Đừng để gần ngày mới cuống.',
+        icon: '🐐', petals: ['🌸','🌼','🍂','✨']
+      },
+      {
+        from: '2026-11-15', to: '2026-11-22',
+        vibe: 'Mùa tri ân thầy cô. Một tin nhắn cảm ơn thôi cũng đủ ấm.',
+        vibes: ["Mùa tri ân thầy cô. Một tin nhắn cảm ơn thôi cũng đủ ấm.", "Thầy cô dạy mình cả cách làm bài lẫn cách làm người. Nhắn một câu cảm ơn nha.", "Hồi đó trốn học thì giỏi, giờ mới thấy tiếc những buổi ngồi nghe thầy cô giảng.", "Chọn một thầy cô cũ, nhắn \"Dạ em đây ạ\". Đảm bảo thầy cô vui cả ngày.", "Phấn trắng bảng đen, ký ức đẹp nhất của một thời. Hôm nay cho phép mình hoài niệm chút.", "Bó hoa nhỏ thôi cũng được. Thầy cô quý cái tấm lòng, không đếm số bông.", "Hôm nay tha cho mình vụ thuộc bài. Chỉ cần thuộc lòng chữ \"biết ơn\" là đủ.", "Có thầy cô nào đang nhớ mình mà mình chưa nhắn không? Nhắn đi, không cần dài."],
+        tipIcon: '💐', tip: 'Gửi lời cảm ơn thầy cô đi. Đừng để thành “để mai”.',
+        icon: '👨‍🏫', petals: ['🌿','🍎','📚','✨']
+      },
+      {
+        from: '2026-11-23', to: '2026-12-09',
+        vibe: 'Cuối tháng 11 rồi. Thời tiết se lạnh, lòng người cũng bắt đầu nhớ nhà hơn.',
+        vibes: ["Cuối tháng 11 rồi. Thời tiết se lạnh, lòng người cũng bắt đầu nhớ nhà hơn.", "Se se lạnh rồi, chiếc áo khoác được lôi ra khỏi tủ với câu \"lâu quá mới gặp\".", "Trà gừng, chăn mỏng, nhạc êm. Công thức hoàn hảo cho một buổi tối cuối năm.", "Tháng 11 sắp hết, năm nay cũng sắp xong. Mình đã làm được nhiều hơn mình nghĩ đó.", "Tờ lịch mỏng dần, tinh thần dày thêm. Tết đang tới rất đúng hẹn.", "Gió đổi hướng, bụng đổi thực đơn: bắt đầu thèm đồ nóng và đồ ngọt.", "Ai hỏi \"năm nay làm được gì\", cứ tự tin: \"Sống tới đây là giỏi rồi\".", "Trời lạnh thì gọi về nhà một cuộc. Ngắn thôi cũng ấm cả tuần."],
+        tipIcon: '📅', tip: 'Xem lại lịch nghỉ Tết của công ty, book vé sớm nếu cần về quê.',
+        icon: '🐐', petals: ['🍂','🌸','✨','🍃']
+      },
+      {
+        from: '2026-12-10', to: '2026-12-26',
+        vibe: 'Đèn vàng đã lên, nhạc êm. Không khí Noel len vào phố phường và cả những căn phòng nhỏ.',
+        vibes: ["Đèn vàng đã lên, nhạc êm. Không khí Noel len vào phố phường và cả những căn phòng nhỏ.", "Chưa có cây thông thì cây xanh trong góc nhà cũng gắn đèn cho vui. Noel là tinh thần thôi.", "Ông già Noel giao quà cả đêm. Mình giao một nụ cười cho người bên cạnh là hợp lý rồi.", "Phố lên đèn, trà sữa lên giá, tâm trạng lên cao. Đúng bài Giáng sinh.", "Quà không cần lớn. Một tấm thiệp viết tay đủ làm người ta tủm tỉm.", "Tuyết thì không có, nhưng áo len thì có. Mặc vào là có Noel.", "Có hai lễ trong hai tháng, Noel rồi tới Tết. Chuyện này đúng là lời.", "Nghe nhạc Giáng sinh lần thứ mười mà vẫn thấy vui. Vậy là Noel thành công.", "Hôm nay ai cũng được phép dễ thương hơn thường ngày. Tận dụng nhé."],
+        tipIcon: '🎁', tip: 'Nghe vài bài Noel cũ, bật đèn vàng, và nhớ ai đó một chút.',
+        icon: '🎄', petals: ['❄️','✨','🎄','⭐']
+      },
+      {
+        from: '2026-12-27', to: '2027-01-03',
+        vibe: 'Đêm cuối năm luôn đặc biệt. Pháo hoa, lời hứa, và cảm giác muốn bắt đầu lại.',
+        vibes: ["Đêm cuối năm luôn đặc biệt. Pháo hoa, lời hứa, và cảm giác muốn bắt đầu lại.", "Lời hứa \"năm nay sẽ dậy sớm\" sắp ra đời. Chúc nó sống lâu.", "Pháo hoa nổ trên trời, quyết tâm nổ trong đầu. Cứ vui trước, kế hoạch tính sau.", "Đếm ngược xong lại đếm ngược tiếp, lần này là đếm tới Tết. Mình là người kiên nhẫn.", "Trang lịch mới sắp mở, lòng mình sắp thơm mùi hy vọng.", "Cuối năm chưa kịp mệt, mình cũng chưa kịp mệt. Cứ thế mà đi tiếp.", "Hôm nay viết ra ba điều mong chờ. Nhớ viết cả \"ăn thật nhiều bánh chưng\".", "Tết Tây là món khai vị, Tết ta mới là món chính. Còn chỗ trong bụng nha."],
+        tipIcon: '📝', tip: 'Viết vài điều muốn làm trong 2027. Không cần nhiều, chỉ cần thật.',
+        icon: '🎆', petals: ['✨','🎉','⭐','💫']
+      },
+      {
+        from: '2027-01-04', to: '2027-01-19',
+        vibe: 'Tháng Giêng dương lịch đã qua. Mùi Tết dần rõ hơn trong từng góc chợ và căn bếp.',
+        vibes: ["Tháng Giêng dương lịch đã qua. Mùi Tết dần rõ hơn trong từng góc chợ và căn bếp.", "Chợ hoa bắt đầu nhộn nhịp, giá hoa cũng bắt đầu nhộn nhịp. Mua sớm thì bình tĩnh hơn.", "Mùi mứt gừng, nhạc xuân, nồi nước hầm xương. Tết đang thò đầu vô cửa rồi.", "Danh sách việc trước Tết dài như sớ Táo Quân. Làm từng dòng một là xong.", "Tiệm may, tiệm tóc, tiệm bánh đang kín lịch. Ai hẹn sớm là người thông minh.", "Mẹ bắt đầu hỏi \"năm nay về mấy giờ\" rồi. Trả lời sớm cho mẹ yên lòng nhé.", "Ngày nào cũng gần Tết hơn một chút. Cảm giác chờ này vui không kém cả ngày Tết.", "Tủ đồ Tết có món nào muốn sắm thêm không? Sắm sớm cho phấn khởi, khỏi chen chúc.", "Hôm nay làm sớm một việc nhỏ cho Tết. Mình của vài ngày nữa sẽ cảm ơn mình."],
+        tipIcon: '🛒', tip: 'Bắt đầu sắm sửa dần: bánh, mứt, hoa. Tránh để sát ngày mới mua.',
+        icon: '🐐', petals: ['🌸','🌼','🍊','✨']
+      },
+      {
+        from: '2027-01-20', to: '2027-01-31',
+        vibe: 'Mùi khói hương và cá chép đã gần. Cả nhà bắt đầu dọn bếp, dọn nhà.',
+        vibes: ["Mùi khói hương và cá chép đã gần. Cả nhà bắt đầu dọn bếp, dọn nhà.", "Ông Táo đang bận chuẩn bị báo cáo cuối năm. Mình chỉ xin một điều: năm sau ít deadline thôi.", "Cá chép ơi, nhớ báo cáo là nhà này năm nay sống rất tử tế nha.", "Dọn nhà một chút là lòng nhẹ ra. Dọn luôn thư mục \"Downloads\" nếu có thể.", "Bếp ấm, nhà thơm, hoa tươi trên bàn. Tết đã đứng ngay trước cổng.", "Nhà sạch đón lộc, đầu sạch đón vui. Đừng ôm việc cũ sang năm mới.", "Gần Tết rồi, ai nói gì cũng thấy dễ thương hơn. Hiệu ứng mùa Tết có thật.", "Chuẩn bị nồi bánh, củi lửa và cả tiếng cười. Thiếu món nào cũng không vui.", "Mâm cúng gọn nhẹ mà ấm lòng. Quan trọng là cả nhà ngồi quây quần."],
+        tipIcon: '🧹', tip: 'Cúng Ông Táo trước 12h trưa, thả cá, rồi dọn dẹp thật sạch.',
+        icon: '🐟', petals: ['🐟','🔥','✨','🎋']
+      },
+      {
+        from: '2027-02-01', to: '2027-02-05',
+        vibe: 'Hoa đào, bánh chưng, tiếng cười cả nhà. Đây rồi — cái cảm giác sum vầy cả năm chờ.',
+        vibes: ["Hoa đào, bánh chưng, tiếng cười cả nhà. Đây rồi — cái cảm giác sum vầy cả năm chờ.", "Nồi bánh chưng sắp sôi, cả nhà sắp quây quần. Ai cũng có việc, nhất là việc ngồi canh lửa.", "Chợ Tết đông như hội mà ai cũng cười. Đây là cái đông duy nhất mình không phàn nàn.", "Mẹ nói \"để mẹ làm cho\", rồi cả nhà cùng làm. Đúng công thức Tết.", "Thử đứng ngắm hoa đào một phút thôi. Một phút mà cả ngày thấy đẹp hơn.", "Giờ này ai cũng bận mà ai cũng vui. Đó chính là mùi của Tết.", "Mâm ngũ quả đã bày, câu đối đã treo. Chỉ còn chờ mình về tới nhà là Tết bắt đầu.", "Quên hết deadline đi. Hôm nay chỉ có hai nhiệm vụ: về nhà và cười thật tươi."],
+        tipIcon: '🧧', tip: 'Chúc Tết, lì xì, và nhớ ôm người thân một cái.',
+        icon: '🐐', petals: ['🌸','🧧','✨','🌼']
+      },
+      {
+        from: '2027-02-06', to: '2027-02-10',
+        vibe: 'Hoa đào, bánh chưng, tiếng cười cả nhà. Đây rồi — cái cảm giác sum vầy cả năm chờ.',
+        vibes: ["Chúc mừng năm mới! Chúc cả nhà ít việc gấp, nhiều niềm vui, nhiều bánh chưng.", "Ai hỏi \"bao giờ cưới\", \"lương bao nhiêu\", mình cứ cười thật tươi rồi hỏi lại: \"Dạ, bác ăn bánh chưa ạ?\"", "Nhận lì xì thì hớn hở, phát lì xì thì tươi cười. Cả hai đều là tinh thần Tết.", "Ba ngày Tết, ba ngày được phép lười tin nhắn công việc. Thật đấy, Tết cho phép.", "Bánh chưng, dưa hành, thịt đông. Mỗi món là một lý do để ngồi lại bàn thêm chút nữa.", "Chào năm Đinh Mùi: năm của sự hiền lành, ấm áp và những cái ôm thật chặt.", "Đi chúc Tết nhớ mang theo nụ cười. Miễn phí mà mở được mọi cánh cửa.", "Hôm nay không có việc nào gấp. Chỉ có một việc đáng làm: ngồi lại bên nhau."],
+        tipIcon: '🧧', tip: 'Mang theo bao lì xì nhỏ và nụ cười. Đi chúc Tết ai cũng cần hai thứ đó.',
+        icon: '🐐', petals: ['🌸','🧧','✨','🌼']
+      },
+      {
+        from: '2027-02-11', to: '2099-12-31',
+        vibe: 'Tết qua rồi nhưng dư vị còn đó. Quay lại nhịp thường ngày với một năm mới nhẹ lòng.',
+        vibes: ["Tết qua rồi nhưng dư vị còn đó. Quay lại nhịp thường ngày với một năm mới nhẹ lòng.", "Đi làm lại mà áo vẫn thơm mùi bánh tét. Thế là Tết còn ở lại với mình.", "Lì xì tiêu hết thì còn lại kỷ niệm. Kỷ niệm miễn phí, giữ được cả năm.", "Mới đi làm lại đã nhớ mâm cơm nhà. Bình thường thôi, mình có tình cảm mà.", "Việc đầu năm cứ nhẹ nhàng thôi. Mạnh dạn tự hứa như vậy nhé.", "Chọn một việc nhỏ để làm đều trong năm Đinh Mùi. Con dê cũng kiên trì lắm.", "Năm mới vừa mới, lòng vừa mới, ly cà phê sáng nay cũng thấy mới. Tận hưởng đi."],
+        tipIcon: '🌱', tip: 'Chọn một việc nhỏ để bắt đầu năm mới. Làm đều mỗi ngày là đủ.',
+        icon: '🐐', petals: ['🌸','🌼','✨','🍃']
+      }
+    ];
+
+    function vnToday() {
+      return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+    }
+
+    // Mỗi ngày một câu: xoay vòng theo số ngày (giờ Việt Nam)
+    function pickVibe(c) {
+      const list = (c.vibes && c.vibes.length) ? c.vibes : [c.vibe];
+      const t = vnToday().split('-').map(Number);
+      const dn = Math.floor(Date.UTC(t[0], t[1] - 1, t[2]) / 86400000);
+      return list[dn % list.length];
+    }
+
+    function getPeriodContent() {
+      const today = vnToday();
+      for (let i = 0; i < periods.length; i++) {
+        if (today >= periods[i].from && today <= periods[i].to) return periods[i];
+      }
+      return periods[0];
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00+07:00');
+      const days = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+      const dow = new Date(dateStr + 'T12:00:00Z').getUTCDay();
+      const parts = dateStr.split('-');
+      return days[dow] + ' · ' + parts[2] + '/' + parts[1];
+    }
+
+    let lastSecs = -1;
+    let lastThemeKey = '';
+
+    function update() {
+      const now = Date.now();
+      const distance = tetDate - now;
+
+      const content = getPeriodContent();
+      const themeKey = currentThemeKey();
+      if (themeKey !== lastThemeKey) { applyTheme(themeKey); lastThemeKey = themeKey; }
+
+      document.getElementById('vibeText').textContent = pickVibe(content);
+      document.getElementById('tipIcon').textContent = content.tipIcon;
+      document.getElementById('tipText').textContent = content.tip;
+      const pct = Math.min(100, Math.max(0, ((now - journeyStart) / totalJourney) * 100));
+      document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
+      document.getElementById('progressPct').textContent = Math.round(pct) + '%';
+
+
+      if (distance <= 0) {
+        document.getElementById('days').textContent = '0';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('mins').textContent = '00';
+        document.getElementById('secs').textContent = '00';
+        document.getElementById('countdownMsg').textContent = 'Chúc Mừng Năm Mới Đinh Mùi!';
+      } else {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('mins').textContent = String(mins).padStart(2, '0');
+
+        const secsEl = document.getElementById('secs');
+        if (secs !== lastSecs) {
+          secsEl.classList.remove('tick');
+          void secsEl.offsetWidth;
+          secsEl.classList.add('tick');
+          lastSecs = secs;
+        }
+        secsEl.textContent = String(secs).padStart(2, '0');
+        document.getElementById('daysText').textContent = days;
+      }
+
+      const container = document.getElementById('milestones');
+      container.innerHTML = '';
+
+      const todayStr = vnToday();
+      const upcoming = events.filter(function(ev) { return ev.date >= todayStr; });
+      if (!upcoming.length) {
+        container.innerHTML = '<div class="ms-name" style="padding:10px 0">Không còn mốc nào. Hẹn năm sau.</div>';
+      }
+      upcoming.forEach(function(ev) {
+        const eventTime = new Date(ev.date + 'T00:00:00+07:00').getTime();
+        const daysLeft = Math.max(0, Math.ceil((eventTime - now) / (1000 * 60 * 60 * 24)));
+        const isToday = ev.date === todayStr;
+
+        const div = document.createElement('div');
+        div.className = 'milestone';
+
+        div.innerHTML =
+          '<div class="ms-icon">' + ev.icon + '</div>' +
+          '<div class="ms-info">' +
+            '<div class="ms-name">' + ev.name + '</div>' +
+            '<div class="ms-date">' + formatDate(ev.date) + '</div>' +
+          '</div>' +
+          '<div class="ms-days">' +
+            (isToday ? 'Nay' : daysLeft + '<span>ngày</span>') +
+          '</div>';
+        container.appendChild(div);
+      });
+    }
+
+    // ===== Cảnh nền theo sự kiện gần nhất =====
+    const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const THEMES = {
+      tet:      { symbols: ['🌼','🌸','🌼','🌸','🍃'], mode: 'fall', count: 12, scene: 'tet' },
+      teacher:  { symbols: ['👩‍🏫','📚','💐','✏️','🌻','🍎','🏫'], mode: 'fall', count: 12, scene: 'chalk' },
+      culture:  { symbols: ['🇻🇳','🎨','🎶','📖','🪷'], mode: 'fall', count: 10, scene: 'none' },
+      noel:     { symbols: ['❄️','❄️','❄️','🎄','⭐','🎁'], mode: 'fall', count: 20, scene: 'lights' },
+      newyear:  { symbols: ['🎉','✨','🥂','⭐'], mode: 'fall', count: 12, scene: 'fireworks' },
+      ongtao:   { symbols: ['🐟','🎏','🔥','💧'], mode: 'rise', count: 10, scene: 'fire' },
+      giaothua: { symbols: ['🔥','🧧','✨','🎋'], mode: 'rise', count: 14, scene: 'fire' },
+      mung1:    { symbols: ['🧧','🌸','🌼','🧨'], mode: 'fall', count: 14, scene: 'fireworks' }
+    };
+    const rnd = function(a, b) { return a + Math.random() * (b - a); };
+    function add(layer, html) { layer.insertAdjacentHTML('beforeend', html); }
+    function many(layer, n, cls, fn) {
+      for (let i = 0; i < n; i++) { const e = document.createElement('i'); e.className = cls; fn(e, i); layer.appendChild(e); }
+    }
+    const FL = function(c) { return '<g id="' + c + '">' + [0,72,144,216,288].map(function(a) { return '<circle cx="' + (Math.cos(a*Math.PI/180)*4.5).toFixed(1) + '" cy="' + (Math.sin(a*Math.PI/180)*4.5).toFixed(1) + '" r="3.6"/>'; }).join('') + '<circle r="1.8" fill="#c2410c"/></g>'; };
+
+    const SCENES = {
+      none: function() {},
+      // Mai, đào, cây nêu, hương khói
+      tet: function(l) {
+        add(l, '<svg class="pole" viewBox="0 0 70 430" xmlns="http://www.w3.org/2000/svg"><rect x="32" y="50" width="6" height="380" rx="3" fill="#a3ad3d"/>' +
+          [110,170,230,290,350].map(function(y) { return '<rect x="30" y="' + y + '" width="10" height="3" rx="1.5" fill="#6f7a22"/>'; }).join('') +
+          '<path d="M35 52 C20 40 10 44 4 56 M35 52 C50 38 62 42 66 54 M35 50 C32 30 40 18 48 14" stroke="#4f9d3a" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+          '<path d="M38 70 C54 64 56 82 68 78 L66 92 C54 96 52 80 38 88Z" fill="#d7263d"/>' +
+          '<line x1="35" y1="100" x2="22" y2="128" stroke="#e5bc5e" stroke-width="1.2"/><circle cx="22" cy="132" r="5" fill="#e5bc5e"/>' +
+          '<line x1="35" y1="100" x2="48" y2="122" stroke="#e5bc5e" stroke-width="1.2"/><rect x="44" y="122" width="8" height="12" rx="2" fill="#d7263d"/></svg>');
+        add(l, '<svg class="branch" viewBox="0 0 380 190" xmlns="http://www.w3.org/2000/svg"><defs>' + FL('mai') + FL('dao') + '</defs>' +
+          '<path d="M380 6 C300 20 240 50 180 80 C120 108 70 120 24 150 M250 40 C240 70 220 96 200 120 M170 82 C160 52 140 40 120 36 M110 112 C100 140 80 160 60 172" stroke="#5a2d1a" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+          '<g fill="#ffd23f"><use href="#mai" x="300" y="24"/><use href="#mai" x="236" y="56"/><use href="#mai" x="178" y="80"/><use href="#mai" x="120" y="36"/><use href="#mai" x="60" y="172"/></g>' +
+          '<g fill="#ff8fb1"><use href="#dao" x="344" y="12"/><use href="#dao" x="262" y="40"/><use href="#dao" x="204" y="118"/><use href="#dao" x="112" y="112"/><use href="#dao" x="70" y="132"/></g></svg>');
+        add(l, '<div class="smoke" style="right:7%;bottom:44px"><i></i><i></i><i></i></div><div class="sticks"><b></b><b></b><b></b></div>');
+      },
+      // Phấn, bảng đen
+      chalk: function(l) {
+        many(l, 30, 'dust', function(e) {
+          e.style.left = rnd(0, 100) + '%'; e.style.top = rnd(0, 80) + '%';
+          e.style.setProperty('--dx', rnd(-40, 40) + 'px'); e.style.setProperty('--dy', rnd(60, 160) + 'px');
+          e.style.animationDuration = rnd(5, 11) + 's'; e.style.animationDelay = rnd(0, 8) + 's';
+        });
+        add(l, '<div class="board">Tri ân<br>thầy cô ♥</div>');
+      },
+      // Dây đèn Noel
+      lights: function(l) {
+        const cols = ['#ff453a','#ffd60a','#30d158','#64d2ff','#ff6fa5'];
+        const w = document.createElement('div'); w.className = 'wire'; l.appendChild(w);
+        many(w, 18, 'bulb', function(e, i) {
+          const t = i / 17;
+          e.style.left = (t * 100) + '%'; e.style.top = (Math.sin(t * Math.PI * 3) * 8 + 12) + 'px';
+          e.style.background = cols[i % 5]; e.style.boxShadow = '0 0 12px 3px ' + cols[i % 5];
+          e.style.animationDelay = (i % 5) * .22 + 's';
+        });
+      },
+      // Lửa nấu bánh chưng / bánh tét
+      fire: function(l) {
+        add(l, '<div class="fire-glow"></div>');
+        add(l, '<svg class="fire" viewBox="0 0 210 160" xmlns="http://www.w3.org/2000/svg">' +
+          [[10,70,.9],[50,50,1.1],[95,40,1.25],[140,52,1.1],[170,72,.9]].map(function(f) {
+            return '<g transform="translate(' + f[0] + ' ' + f[1] + ') scale(' + f[2] + ')"><g class="flame"><path d="M20 0 C24 16 38 24 36 42 C35 54 28 60 20 60 C12 60 5 54 4 42 C3 28 16 22 20 0Z" fill="#ff7a18"/><path d="M20 22 C23 32 30 36 29 46 C28 53 24 56 20 56 C16 56 12 53 11 46 C10 36 17 32 20 22Z" fill="#ffd23f"/></g></g>'; }).join('') +
+          '<path d="M44 64 H166 L158 118 Q156 124 148 124 H62 Q54 124 52 118Z" fill="#241414"/><ellipse cx="105" cy="64" rx="61" ry="9" fill="#3b2323"/><ellipse cx="105" cy="64" rx="52" ry="6" fill="#120909"/>' +
+          '<rect x="26" y="138" width="158" height="9" rx="4.5" fill="#4a2a1a"/><rect x="40" y="148" width="130" height="8" rx="4" fill="#5c3520"/></svg>');
+        add(l, '<div class="smoke" style="left:50%;margin-left:-30px;bottom:100px"><i></i><i></i><i></i></div>');
+        many(l, 22, 'ember', function(e) {
+          e.style.left = rnd(36, 64) + '%'; e.style.setProperty('--dx', rnd(-90, 90) + 'px');
+          e.style.animationDuration = rnd(3, 6.5) + 's'; e.style.animationDelay = rnd(0, 6) + 's';
+        });
+      },
+      // Pháo hoa
+      fireworks: function(l) {
+        if (REDUCE) return;
+        add(l, '<canvas id="fw"></canvas>');
+        startFireworks(document.getElementById('fw'));
+      }
+    };
+
+    let fwRaf = 0, fwParts = [], fwSize = null;
+    function startFireworks(cv) {
+      const ctx = cv.getContext('2d'); const dpr = Math.min(2, window.devicePixelRatio || 1);
+      fwSize = function() { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+      fwSize();
+      const cols = ['#ffd60a','#ff453a','#ff9f0a','#ff6fa5','#fff3c4'];
+      let next = 0;
+      function burst() {
+        const x = innerWidth * rnd(.12, .88), y = innerHeight * rnd(.1, .5), c = cols[Math.floor(Math.random() * cols.length)];
+        for (let i = 0; i < 46; i++) { const a = Math.PI * 2 * i / 46, v = rnd(1.2, 3.8); fwParts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, c: c }); }
+      }
+      function frame(t) {
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        if (t > next) { burst(); next = t + rnd(900, 1800); }
+        fwParts = fwParts.filter(function(p) { return p.life > 0; });
+        fwParts.forEach(function(p) {
+          p.x += p.vx; p.y += p.vy; p.vy += .035; p.vx *= .985; p.life -= .012;
+          ctx.globalAlpha = Math.max(0, p.life); ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, 6.3); ctx.fill();
+        });
+        ctx.globalAlpha = 1; fwRaf = requestAnimationFrame(frame);
+      }
+      fwRaf = requestAnimationFrame(frame);
+    }
+    function stopFireworks() { cancelAnimationFrame(fwRaf); fwParts = []; fwSize = null; }
+    window.addEventListener('resize', function() { if (fwSize) fwSize(); });
+
+    function spawnParticles(t) {
+      const layer = document.getElementById('atmosphere');
+      layer.querySelectorAll('.petal').forEach(function(p) { p.remove(); });
+      for (let i = 0; i < t.count; i++) {
+        const el = document.createElement('div');
+        el.className = 'petal' + (t.mode === 'rise' ? ' rise' : '');
+        el.textContent = t.symbols[i % t.symbols.length];
+        el.style.left = rnd(4, 94) + '%';
+        if (t.mode === 'rise') el.style.bottom = '-24px'; else el.style.top = '0';
+        el.style.fontSize = rnd(13, 23) + 'px';
+        el.style.animationDuration = rnd(9, 17) + 's';
+        el.style.animationDelay = rnd(0, 8) + 's';
+        layer.appendChild(el);
+      }
+    }
+
+    function applyTheme(key) {
+      const t = THEMES[key] || THEMES.tet;
+      const scene = document.getElementById('scene');
+      stopFireworks(); scene.innerHTML = '';
+      (SCENES[t.scene] || SCENES.none)(scene);
+      spawnParticles(t);
+    }
+
+    // Sự kiện gần nhất trong 3 ngày → cảnh của sự kiện đó. Còn lại: mai, đào, cây nêu, hương khói.
+    // Xem thử: thêm ?theme=giaothua (teacher, culture, noel, newyear, ongtao, giaothua, mung1, tet) vào địa chỉ.
+    function currentThemeKey() {
+      const forced = new URLSearchParams(location.search).get('theme');
+      if (forced && THEMES[forced]) return forced;
+      const today = vnToday();
+      const next = events.find(function(ev) { return ev.date >= today; });
+      if (!next) return 'tet';
+      const days = Math.ceil((new Date(next.date + 'T00:00:00+07:00').getTime() - Date.now()) / 86400000);
+      return days <= 3 ? next.theme : 'tet';
+    }
+
+    // Dê chạy từ cuối tiêu đề tới mép phải màn hình
+    const runner = document.getElementById('runner');
+    let runAnim = null;
+    function startRun() {
+      if (runAnim) runAnim.cancel();
+      const h = document.querySelector('h1').getBoundingClientRect();
+      const bd = document.querySelector('.badge').getBoundingClientRect();
+      // Đủ chỗ bên phải tiêu đề thì chạy ở hàng tiêu đề, không thì chạy ở hàng huy hiệu
+      const onTitle = window.innerWidth - (h.left + h.width) >= 190;
+      const row = onTitle ? h : bd;
+      const startX = row.left + row.width + 80;
+      const dist = Math.max(80, window.innerWidth - startX + 30);
+      runner.style.left = startX + 'px';
+      runner.style.top = (row.top + window.scrollY + row.height / 2 - 15) + 'px';
+      runAnim = runner.animate([
+        { transform: 'translateX(0)', opacity: 0 },
+        { transform: 'translateX(' + dist * 0.08 + 'px)', opacity: 1, offset: 0.08 },
+        { transform: 'translateX(' + dist * 0.92 + 'px)', opacity: 1, offset: 0.92 },
+        { transform: 'translateX(' + dist + 'px)', opacity: 0 }
+      ], { duration: Math.max(2600, dist * 10), endDelay: 1000, iterations: Infinity, easing: 'linear' });
+    }
+    window.addEventListener('resize', startRun);
+    window.addEventListener('load', startRun);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(startRun);
+    startRun();
+
+    // Init petals
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
